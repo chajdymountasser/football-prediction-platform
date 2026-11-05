@@ -1,0 +1,242 @@
+@import url('https://db.onlinewebfonts.com/c/b20e00c5828d894b65488a11690a6187?family=PremierLeague');
+@import url('https://db.onlinewebfonts.com/c/06c20358fc0c95da300413a9460c3d4b?family=Premier+League+W01+Bold');
+
+:root{
+  --c-pl-blue: #05f0ff;
+  --c-pl-lilac: #953bff;
+  --c-pl-purple: #37003c;
+  --c-mono-p2: #faf9fa;
+  --c-mono-p10: #ebe5eb;
+  --c-mono-600: #404040;
+  --c-mono-400: #8c8c8c;
+  --c-mono-white: #fff;
+
+  --font-regular: "PremierLeague", helvetica, sans-serif;
+  --font-bold: "Premier League W01 Bold", helvetica, sans-serif;
+
+  --radius-xl: 16px;
+  --nav-height: 73px;
+  --container-width: 1240px;
+}
+
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--font-regular);
+  background: var(--c-mono-p2);
+  color: #111;
+}
+
+/* Layout container like PL site */
+.container{
+  width: min(100% - 40px, var(--container-width));
+  margin-inline: auto;
+}
+
+
+
+
+
+
+
+
+
+
+/* ---------------- TOP NAV ---------------- */
+.top-nav{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  background: var(--c-mono-white);
+  border-bottom: 1px solid var(--c-mono-p10);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 0 55px;
+}
+
+.top-nav__left{
+  display:flex; align-items:center; gap:14px;
+}
+
+.icon-btn{
+  border:none; 
+  background:transparent; 
+  cursor:pointer;
+  width:40px; 
+  height:40px; 
+  border-radius:999px;
+  display:grid; 
+  place-items:center;
+}
+.icon-btn img { width:25px; height:25px; }
+.icon-btn:hover{ background:#f3f3f3; }
+
+.nav-logo img { height: 48px; }
+
+/* Center nav like PremierLeague.com */
+.top-nav__center{
+  display:flex;
+  align-items:center;
+  gap: 6px;
+  overflow-x:auto;
+  scrollbar-width: none;
+}
+.top-nav__center::-webkit-scrollbar{ display:none; }
+
+.top-nav__center a{
+  color: var(--c-pl-purple);
+  text-decoration:none;
+  font-family: var(--font-bold);
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease;
+}
+.top-nav__center a:hover{
+  background:#f3f3f3;
+}
+.top-nav__center a.active{
+  background:#ece7ef;
+}
+
+.sign-in-btn{
+  font-family: var(--font-bold);
+  font-size: 14px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border:1.5px solid var(--c-pl-purple);
+  color: var(--c-pl-purple);
+  background:transparent;
+  cursor:pointer;
+  transition: background .2s ease, color .2s ease;
+}
+.sign-in-btn:hover{
+  background: var(--c-pl-purple);
+  color: white;
+}
+
+
+
+
+
+/* =================== LEFT NAV DRAWER =================== */
+
+.nav-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(23, 0, 36, 0.85);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+  z-index: 999;
+}
+
+.nav-backdrop.is-open{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-drawer{
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 300px;
+  max-width: 85vw;
+  background: #fff;
+  transform: translateX(-105%);
+  transition: transform .28s ease;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 12px 0 40px rgba(0,0,0,0.18);
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  overflow: hidden;
+}
+
+.nav-drawer.is-open{
+  transform: translateX(0);
+}
+
+/* header */
+.nav-drawer__header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid #eee;
+}
+
+.nav-drawer__logo img{
+  height: 34px;
+  display:block;
+}
+
+.nav-drawer__close{
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* links */
+.nav-drawer__links{
+  display:flex;
+  flex-direction:column;
+  padding: 10px 8px;
+  gap: 2px;
+  overflow-y:auto;
+  flex:1;
+}
+
+.nav-drawer__links a{
+  padding: 12px 14px;
+  border-radius: 10px;
+  color: var(--c-pl-purple);
+  font-family: var(--font-bold);
+  font-size: 15px;
+  text-decoration:none;
+  transition: background .18s ease, color .18s ease;
+}
+
+.nav-drawer__links a:hover{
+  background: #f3eef7;
+}
+
+.nav-drawer__links a.active{
+  background: #f3eef7;
+}
+
+/* footer */
+.nav-drawer__footer{
+  padding: 14px 18px;
+  border-top: 1px solid #eee;
+  background:#fff;
+}
+
+.nav-drawer__signin{
+  width:100%;
+  justify-content:center;
+}
+
+
+
+
+/* ===== Responsive Nav: hide horizontal links under 940px ===== */
+@media (max-width: 940px){
+  .top-nav{
+    grid-template-columns: auto auto;  /* left + right */
+    justify-content: space-between;
+  }
+
+  .top-nav__center{
+    display: none !important;          /* hide the horizontal navbar */
+  }
+
+  .top-nav__right{
+    justify-self: end;
+  }
+}

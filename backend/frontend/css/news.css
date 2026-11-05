@@ -1,0 +1,125 @@
+/* ---------------- HEADER BAND ---------------- */
+.news-header{
+  position: relative;
+  background: var(--c-pl-purple);
+  color: white;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;      
+}
+
+.news-header .container{
+  position: relative;
+  z-index: 2;
+  background: transparent;  
+}
+
+.news-header h1{
+  font-family: var(--font-bold);
+  font-size: 48px;
+  position: relative;
+  z-index: 2;             
+}
+
+.news-header__pattern{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 60vw;            
+  max-width: 900px;
+  min-width: 420px;
+  background-image: url("../image/zigzag-model0-1.svg");
+  background-repeat: no-repeat;
+  background-size: cover;  
+  background-position: right center;
+  opacity: 1;
+  pointer-events: none;
+  filter: blur(0.35px);
+  z-index: 0;                
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ---------------- MAIN + GRID ---------------- */
+.news-main{
+  padding: 26px 0 60px;
+}
+
+.section-title{
+  color: var(--c-pl-purple);
+  font-family: var(--font-bold);
+  font-size: 24px;
+  margin: 10px 0 18px;
+}
+
+/* Card grid closer to PL spacing */
+.news-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+/* Cards */
+.news-card{
+  background:white;
+  border-radius: var(--radius-xl);
+  overflow:hidden;
+  box-shadow: 0 3px 14px rgba(0,0,0,.08);
+  transition: transform .18s ease, box-shadow .18s ease;
+  cursor:pointer;
+}
+.news-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.12);
+}
+
+/* Image ratio similar to PL */
+.news-card img{
+  width:100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display:block;
+}
+
+.news-card__body{
+  padding: 12px 14px 14px;
+}
+
+.news-card h3{
+  font-family: var(--font-bold);
+  font-size: 17px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+  color:#171717;
+}
+.news-card p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight:100;
+}
+
+.category{
+  font-size: 14px;
+  color: var(--c-mono-600);
+}
+
+/* ---------------- RESPONSIVE TUNING ---------------- */
+@media (max-width: 768px){
+  .news-header{ height: 160px; }
+  .top-nav{ padding: 0 10px; }
+}
+
+@media (max-width: 480px){
+  .news-grid{ grid-template-columns: 1fr; }
+}

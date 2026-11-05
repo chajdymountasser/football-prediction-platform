@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premier League - Matches</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/static/icons/common/pl-favicon.png" />
+  <link rel="apple-touch-icon" href="/static/icons/common/pl-favicon.png" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/css/root.css" />
+  <link rel="stylesheet" href="/static/css/matches.css" />
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="top-nav__left">
+      <button class="icon-btn" aria-label="Open menu">
+        <img src="/static/icons/common/hamburger-menu.svg" alt="">
+      </button>
+
+      <a class="nav-logo" href="/">
+        <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+      </a>
+    </div>
+
+    <nav class="top-nav__center">
+      <a href="/matches" class="active">Matches</a>
+      <a href="/table">Table</a>
+      <a href="/stats">Statistics</a>
+      <a href="/news">News</a>
+      <a href="/clubs">Clubs</a>
+      <a href="/watch">Watch Live</a>
+    </nav>
+
+    <div class="top-nav__right">
+      <button class="sign-in-btn">Sign in</button>
+    </div>
+
+    <!-- Drawer -->
+    <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
+    <aside id="navDrawer" class="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer__header">
+        <a class="nav-drawer__logo" href="/">
+          <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+        </a>
+        <button class="icon-btn nav-drawer__close" type="button">✕</button>
+      </div>
+
+      <nav class="nav-drawer__links">
+        <a href="/matches">Matches</a>
+        <a href="/table">Table</a>
+        <a href="/stats">Statistics</a>
+        <a href="/news">News</a>
+        <a href="/clubs">Clubs</a>
+        <a href="/watch">Watch Live</a>
+      </nav>
+
+      <div class="nav-drawer__footer">
+        <button class="sign-in-btn nav-drawer__signin">Sign in</button>
+      </div>
+    </aside>
+  </header>
+
+  <!-- Header -->
+  <section class="matches-header">
+    <div class="container">
+      <h1>Matches</h1>
+    </div>
+    <div class="matches-header__pattern"></div>
+  </section>
+
+  <!-- Main -->
+  <main class="matches-main">
+    <div class="container">
+      <section class="matches-panel">
+
+        <!-- Filters -->
+        <div class="filters-row">
+          <button class="filter" id="competitionFilter"><span id="competitionLabel">Premier League</span> ▾</button>
+          <button class="filter" id="seasonFilter"><span id="seasonLabel">2025/26</span> ▾</button>
+          <button class="filter" id="matchweekFilter"><span id="matchweekLabel">MW1</span> ▾</button>
+          <button class="filter" id="clubsFilter"><span id="clubsLabel">Clubs</span> ▾</button>
+          <button class="reset-btn" id="resetFilters">Reset ↻</button>
+        </div>
+
+        <!-- Matchweek bar -->
+        <div class="matchweek-bar">
+          <button class="mw-nav-btn" id="prevWeekBtn">‹</button>
+          <div class="mw-center">
+            <div id="matchweekTitle">Matchweek 1</div>
+            <div id="matchweekDates">Loading…</div>
+          </div>
+          <button class="mw-nav-btn" id="nextWeekBtn">›</button>
+        </div>
+
+        <!-- Fixtures -->
+        <div id="fixturesContainer"></div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Filter Sheet -->
+  <div id="filterSheet" class="sheet-backdrop" hidden>
+    <div class="sheet" role="dialog" aria-modal="true" aria-label="Filters">
+      <div class="sheet-header">
+        <button class="sheet-back" id="sheetBackBtn" type="button">‹</button>
+        <h3 id="sheetTitle">Filters</h3>
+        <button class="sheet-close" id="sheetCloseBtn" type="button">✕</button>
+      </div>
+
+      <div class="sheet-body" id="sheetBody"></div>
+
+      <div class="sheet-footer">
+        <button class="sheet-save" id="sheetSaveBtn" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Predict Modal -->
+  <div id="predictBackdrop" class="predict-backdrop" hidden>
+    <div id="predictModal" class="predict-modal" role="dialog" aria-modal="true" aria-label="Prediction">
+      <div class="predict-header">
+        <div>
+          <div class="predict-kicker">Match prediction</div>
+          <h3>Prediction</h3>
+        </div>
+        <button class="predict-close" id="predictCloseBtn" type="button">✕</button>
+      </div>
+
+      <div class="predict-body">
+        <div class="predict-match">
+          <div class="predict-team">
+            <img class="predict-badge" id="pHomeBadge" alt="">
+            <div>
+              <div class="predict-team-name" id="pHomeName">Home</div>
+              <div class="predict-team-meta" id="pHomeMeta">Home</div>
+            </div>
+          </div>
+
+          <div class="predict-vs">
+            <div class="predict-status" id="pStatus">KO</div>
+            <div class="predict-timepill" id="pTimeOrScore">--:--</div>
+          </div>
+
+          <div class="predict-team predict-team--right">
+            <div>
+              <div class="predict-team-name" id="pAwayName">Away</div>
+              <div class="predict-team-meta" id="pAwayMeta">Away</div>
+            </div>
+            <img class="predict-badge" id="pAwayBadge" alt="">
+          </div>
+        </div>
+
+        <div class="predict-card">
+          <div class="predict-card-title">Result</div>
+          <div class="predict-note" id="pResultNote">Click Run prediction.</div>
+
+          <div id="pBars" class="predict-bars" hidden>
+            <div class="bar-row">
+              <div class="bar-label" id="barHomeLabel">Home win</div>
+              <div class="bar"><div class="bar-fill" id="barHomeFill" style="width:0%"></div></div>
+              <div class="bar-pct" id="barHomePct">0%</div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label">Draw</div>
+              <div class="bar"><div class="bar-fill" id="barDrawFill" style="width:0%"></div></div>
+              <div class="bar-pct" id="barDrawPct">0%</div>
+            </div>
+
+            <div class="bar-row">
+              <div class="bar-label" id="barAwayLabel">Away win</div>
+              <div class="bar"><div class="bar-fill" id="barAwayFill" style="width:0%"></div></div>
+              <div class="bar-pct" id="barAwayPct">0%</div>
+            </div>
+
+            <div class="predict-winner" id="pWinner" hidden></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="predict-footer">
+        <button class="predict-run" id="predictRunBtn" type="button">Run prediction</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/static/js/root.js"></script>
+  <script src="/static/js/matches.js"></script>
+</body>
+</html>

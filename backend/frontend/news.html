@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premier League - News</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/static/icons/common/pl-favicon.png" />
+  <link rel="apple-touch-icon" href="/static/icons/common/pl-favicon.png" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/css/root.css" />
+  <link rel="stylesheet" href="/static/css/news.css" />
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="top-nav__left">
+      <button class="icon-btn" aria-label="Open menu">
+        <img src="/static/icons/common/hamburger-menu.svg" alt="">
+      </button>
+      <a class="nav-logo" href="/">
+        <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+      </a>
+    </div>
+
+    <nav class="top-nav__center">
+      <a href="/matches">Matches</a>
+      <a href="/table">Table</a>
+      <a href="/stats">Statistics</a>
+      <a href="/news" class="active">News</a>
+      <a href="/clubs">Clubs</a>
+      <a href="/watch">Watch Live</a>
+    </nav>
+
+    <div class="top-nav__right">
+      <button class="sign-in-btn">Sign in</button>
+    </div>
+
+    <!-- Drawer -->
+    <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
+    <aside id="navDrawer" class="nav-drawer" aria-hidden="true" role="dialog">
+      <div class="nav-drawer__header">
+        <a class="nav-drawer__logo" href="/">
+          <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+        </a>
+        <button class="icon-btn nav-drawer__close" type="button">✕</button>
+      </div>
+
+      <nav class="nav-drawer__links">
+        <a href="/matches">Matches</a>
+        <a href="/table">Table</a>
+        <a href="/stats">Statistics</a>
+        <a href="/news">News</a>
+        <a href="/clubs">Clubs</a>
+        <a href="/watch">Watch Live</a>
+      </nav>
+
+      <div class="nav-drawer__footer">
+        <button class="sign-in-btn nav-drawer__signin">Sign in</button>
+      </div>
+    </aside>
+  </header>
+
+  <!-- HEADER -->
+  <section class="news-header">
+    <div class="container">
+      <h1>News</h1>
+    </div>
+    <div class="news-header__pattern" aria-hidden="true"></div>
+  </section>
+
+  <!-- MAIN -->
+  <main class="news-main">
+    <div class="container">
+
+      <section class="news-panel">
+        <h2 class="section-title">Latest News &amp; Features</h2>
+
+        <section class="news-grid">
+          <article class="news-card">
+            <img src="/static/image/example1.jpg" alt="">
+            <div class="news-card__body">
+              <h3>'Outstanding' De Ligt is now a central figure for Amorim</h3>
+              <p class="category">Tactics and Analysis</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="/static/image/example2.png" alt="">
+            <div class="news-card__body">
+              <h3>Key questions for the midweek matches</h3>
+              <p class="category">Features</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="/static/image/example3.png" alt="">
+            <div class="news-card__body">
+              <h3>Tom Kirk: Who is the Premier League's newest referee?</h3>
+              <p class="category">News</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="/static/image/example4.jpg" alt="">
+            <div class="news-card__body">
+              <h3>Match officials for Matchweek 14 midweek fixtures</h3>
+              <p class="category">News</p>
+            </div>
+          </article>
+        </section>
+      </section>
+
+      <br><br>
+
+      <section class="news-panel">
+        <h2 class="section-title">Match reports</h2>
+
+        <section class="news-grid">
+          <article class="news-card">
+            <img src="/static/image/example1.jpg" alt="">
+            <div class="news-card__body">
+              <h3>'Outstanding' De Ligt is now a central figure for Amorim</h3>
+              <p class="category">Tactics and Analysis</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="/static/image/example2.png" alt="">
+            <div class="news-card__body">
+              <h3>Key questions for the midweek matches</h3>
+              <p class="category">Features</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="/static/image/example3.png" alt="">
+            <div class="news-card__body">
+              <h3>Tom Kirk: Who is the Premier League's newest referee?</h3>
+              <p class="category">News</p>
+            </div>
+          </article>
+
+          <article class="news-card">
+            <img src="/static/image/example4.jpg" alt="">
+            <div class="news-card__body">
+              <h3>Match officials for Matchweek 14 midweek fixtures</h3>
+              <p class="category">News</p>
+            </div>
+          </article>
+        </section>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- JS -->
+  <script src="/static/js/root.js"></script>
+</body>
+</html>

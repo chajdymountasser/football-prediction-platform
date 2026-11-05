@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Architecture Tree</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .tree-container {
+            padding: 30px;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .tree {
+            list-style: none;
+        }
+
+        .tree-item {
+            margin: 4px 0;
+            position: relative;
+        }
+
+        .tree-content {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .tree-content:hover {
+            background: #f0f4ff;
+        }
+
+        .tree-content.active {
+            background: #e3f2fd;
+        }
+
+        .toggle-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            transition: transform 0.2s ease;
+        }
+
+        .toggle-icon.expanded {
+            transform: rotate(90deg);
+        }
+
+        .item-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .item-name {
+            font-weight: 500;
+            color: #2c3e50;
+            
+        }
+
+        .item-badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            background: #e3f2fd;
+            color: #1976d2;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .item-badge.python {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .item-badge.config {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .item-badge.html {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .item-badge.css {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .item-badge.js {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .children {
+            list-style: none;
+            margin-left: 24px;
+            padding-left: 16px;
+            border-left: 2px solid #e0e0e0;
+            display: none;
+            margin-top: 4px;
+        }
+
+        .children.expanded {
+            display: block;
+        }
+
+        .description {
+            margin-left: 40px;
+            padding: 2px 0 4px 0;
+            font-size: 0.75rem;
+            color: #888;
+            line-height: 1.3;
+            display: block;
+            font-style: italic;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .description ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        .description li {
+            margin: 4px 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .controls {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: #667eea;
+            color: white;
+        }
+
+        .btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🗂️ Project Architecture Tree</h1>
+            <p>Click on folders to expand/collapse, click on files to view details</p>
+        </div>
+
+        <div class="tree-container">
+            <ul class="tree" id="treeRoot"></ul>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="expandAll()">Expand All</button>
+            <button class="btn btn-secondary" onclick="collapseAll()">Collapse All</button>
+        </div>
+    </div>
+
+    <script>
+        const projectStructure = {
+            name: "backend/",
+            type: "folder",
+            description: "Root directory containing the entire Flask application and frontend assets",
+            children: [
+                {
+                    name: "app.py",
+                    type: "file",
+                    badge: "python",
+                    description: "Application entry point. Calls create_app() and runs Flask."
+                },
+                {
+                    name: ".env.example",
+                    type: "file",
+                    badge: "config",
+                    description: "Environment variables template (no real keys)."
+                },
+                {
+                    name: "requirements.txt",
+                    type: "file",
+                    badge: "config",
+                    description: "Python dependencies."
+                },
+                {
+                    name: "app/",
+                    type: "folder",
+                    children: [
+                        {
+                            name: "data/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "team_registry/",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "PL.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Premier League team name → logo filename mapping"
+                                        },
+                                        {
+                                            name: "BL1.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Bundesliga team name → logo filename mapping"
+                                        },
+                                        {
+                                            name: "PD.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "La Liga team name → logo filename mapping"
+                                        },
+                                        {
+                                            name: "SA.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Serie A team name → logo filename mapping"
+                                        },
+                                        {
+                                            name: "FL1.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Ligue 1 team name → logo filename mapping"
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "raw/",
+                                    type: "folder",
+                                    description: "Raw datasets (optional, for future expansion)."
+                                },
+                                {
+                                    name: "splits/",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "train_normalized.csv",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Normalized training dataset"
+                                        },
+                                        {
+                                            name: "valid_normalized.csv",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Normalized validation dataset"
+                                        },
+                                        {
+                                            name: "test_normalized.csv",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Normalized test dataset"
+                                        },
+                                        {
+                                            name: "normalization_parameters.csv",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Normalization parameters for features"
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "build_dataset.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: `Data preparation:
+                                    <ul>
+                                        <li>Feature engineering</li>
+                                        <li>Train/valid/test split</li>
+                                        <li>Normalization + saving normalization_parameters.csv</li>
+                                    </ul>`
+                                }
+                            ]
+                        },
+                        {
+                            name: "routes/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "pages.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Serves HTML pages (/table, /matches, etc.)."
+                                },
+                                {
+                                    name: "meta.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Returns leagues + seasons metadata."
+                                },
+                                {
+                                    name: "standings.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Returns standings table data."
+                                },
+                                {
+                                    name: "fixtures.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Returns fixtures grouped by date for league/season/matchday."
+                                },
+                                {
+                                    name: "teams.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Returns logo URLs + club list for the league."
+                                },
+                                {
+                                    name: "predict.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: `POST /api/predict:
+                                    <ul>
+                                        <li>Validates payload (league/season/matchId/date/homeTeam/awayTeam)</li>
+                                        <li>Builds PredictRequest</li>
+                                        <li>Calls ML manager</li>
+                                        <li>Returns stable probabilities response</li>
+                                    </ul>`
+                                }
+                            ]
+                        },
+                        {
+                            name: "services/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "football_api.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "The only module allowed to call Football-Data API."
+                                },
+                                {
+                                    name: "team_registry.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Loads + caches team→logo mappings from app/data/team_registry/*.json"
+                                }
+                            ]
+                        },
+                        {
+                            name: "utils/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "cache.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "In-memory TTL cache (Football-Data API responses)."
+                                },
+                                {
+                                    name: "normalizers.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "Normalizes Football-Data API payloads for frontend."
+                                }
+                            ]
+                        },
+                        {
+                            name: "ml/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "__init__.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: "ML package entry."
+                                },
+                                {
+                                    name: "types.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: `Shared dataclasses/contracts:
+                                    <ul>
+                                        <li>PredictRequest</li>
+                                        <li>TeamInfo</li>
+                                        <li>MatchContext (optional/extendable)</li>
+                                    </ul>`
+                                },
+                                {
+                                    name: "manager.py",
+                                    type: "file",
+                                    badge: "python",
+                                    description: `ML orchestrator:
+                                    <ul>
+                                        <li>Reads model registry (artifacts/metadata.json)</li>
+                                        <li>Selects model (default + perLeague override)</li>
+                                        <li>Builds features using features/builder.py</li>
+                                        <li>Calls predictor.predict_proba()</li>
+                                        <li>Optional post-processing: draw-boost for close Elo (explainable, normalized)</li>
+                                        <li>Returns stable API contract: {homeWin, draw, awayWin, modelName, meta...}</li>
+                                    </ul>`
+                                },
+                                {
+                                    name: "artifacts/",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "metadata.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: `Model registry:
+                                            <ul>
+                                                <li>Default model name (e.g., rf_v2)</li>
+                                                <li>perLeague overrides (optional)</li>
+                                                <li>models{} dictionary with: type, hyperparams, CV results, metrics, artifact paths</li>
+                                            </ul>`
+                                        },
+                                        {
+                                            name: "rf_v2.joblib",
+                                            type: "file",
+                                            badge: "python",
+                                            description: "Random Forest model v2 (joblib serialized)"
+                                        },
+                                        {
+                                            name: "logreg_v2.joblib",
+                                            type: "file",
+                                            badge: "python",
+                                            description: "Logistic Regression model v2 (optional if kept)"
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "gamedb/",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "feature_order.json",
+                                            type: "file",
+                                            badge: "config",
+                                            description: "Canonical feature ordering used at inference time."
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "features/",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "__init__.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: "Features package entry"
+                                        },
+                                        {
+                                            name: "builder.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: `Feature builder for inference:
+                                            <ul>
+                                                <li>Loads normalization params from data/splits/normalization_parameters.csv</li>
+                                                <li>Maps team names safely</li>
+                                                <li>Computes feature dictionary</li>
+                                                <li>Applies normalization using saved params</li>
+                                                <li>Returns dict aligned with feature_order.json</li>
+                                            </ul>`
+                                        }
+                                    ]
+                                },
+                                {
+                                    name: "predictors/",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            name: "__init__.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: "Predictors package entry"
+                                        },
+                                        {
+                                            name: "base.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: "Predictor interface: predict_proba(features: dict) → dict {homeWin, draw, awayWin}"
+                                        },
+                                        {
+                                            name: "loader.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: "Loads joblib artifacts + feature_order. (Shared helper used by model predictors)"
+                                        },
+                                        {
+                                            name: "rf_model.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: `Random Forest predictor wrapper:
+                                            <ul>
+                                                <li>Loads rf_v*.joblib</li>
+                                                <li>Enforces feature order</li>
+                                                <li>Returns probabilities</li>
+                                            </ul>`
+                                        },
+                                        {
+                                            name: "train_rf.py",
+                                            type: "file",
+                                            badge: "python",
+                                            description: `Training pipeline (Random Forest):
+                                            <ul>
+                                                <li>Loads train/valid/test</li>
+                                                <li>5-fold stratified CV on (train+valid)</li>
+                                                <li>Grid search for min_samples_leaf/min_samples_split</li>
+                                                <li>Evaluates on test</li>
+                                                <li>Saves model + updates metadata.json</li>
+                                            </ul>`
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            name: "__init__.py",
+                            type: "file",
+                            badge: "python",
+                            description: `Flask factory:
+                            <ul>
+                                <li>template_folder and static_folder → ../frontend</li>
+                                <li>registers API + page blueprints</li>
+                            </ul>`
+                        },
+                        {
+                            name: "config.py",
+                            type: "file",
+                            badge: "python",
+                            description: "Loads environment variables and Flask config."
+                        }
+                    ]
+                },
+                {
+                    name: "frontend/",
+                    type: "folder",
+                    children: [
+                        {
+                            name: "index.html",
+                            type: "file",
+                            badge: "html",
+                            description: "Main homepage"
+                        },
+                        {
+                            name: "table.html",
+                            type: "file",
+                            badge: "html",
+                            description: "League standings table page"
+                        },
+                        {
+                            name: "matches.html",
+                            type: "file",
+                            badge: "html",
+                            description: "Fixtures and matches page"
+                        },
+                        {
+                            name: "news.html",
+                            type: "file",
+                            badge: "html",
+                            description: "News page"
+                        },
+                        {
+                            name: "css/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "root.css",
+                                    type: "file",
+                                    badge: "css",
+                                    description: "Global CSS variables and common styles"
+                                },
+                                {
+                                    name: "table.css",
+                                    type: "file",
+                                    badge: "css",
+                                    description: "Styles for standings table page"
+                                },
+                                {
+                                    name: "matches.css",
+                                    type: "file",
+                                    badge: "css",
+                                    description: "Styles for matches page"
+                                }
+                            ]
+                        },
+                        {
+                            name: "js/",
+                            type: "folder",
+                            children: [
+                                {
+                                    name: "root.js",
+                                    type: "file",
+                                    badge: "js",
+                                    description: "Global JavaScript utilities and shared functions"
+                                },
+                                {
+                                    name: "table.js",
+                                    type: "file",
+                                    badge: "js",
+                                    description: "Fetches from /api/meta, /api/teams, /api/standings"
+                                },
+                                {
+                                    name: "matches.js",
+                                    type: "file",
+                                    badge: "js",
+                                    description: "Fetches from /api/fixtures, /api/predict"
+                                }
+                            ]
+                        },
+                        {
+                            name: "icons/",
+                            type: "folder",
+                            description: "SVG logos (common + per league)."
+                        },
+                        {
+                            name: "image/",
+                            type: "folder",
+                            description: "Site images and assets."
+                        }
+                    ]
+                }
+            ]
+        };
+
+        function getIcon(type) {
+            if (type === 'folder') return '📁';
+            return '📄';
+        }
+
+        function createTreeItem(item, level = 0) {
+            const li = document.createElement('li');
+            li.className = 'tree-item';
+
+            const content = document.createElement('div');
+            content.className = 'tree-content';
+
+            if (item.type === 'folder') {
+                const toggle = document.createElement('span');
+                toggle.className = 'toggle-icon';
+                toggle.innerHTML = '▶';
+                content.appendChild(toggle);
+            } else {
+                const spacer = document.createElement('span');
+                spacer.style.width = '16px';
+                spacer.style.marginRight = '8px';
+                content.appendChild(spacer);
+            }
+
+            const icon = document.createElement('span');
+            icon.className = 'item-icon';
+            icon.textContent = getIcon(item.type);
+            content.appendChild(icon);
+
+            const name = document.createElement('span');
+            name.className = 'item-name';
+            name.textContent = item.name;
+            content.appendChild(name);
+
+            if (item.badge) {
+                const badge = document.createElement('span');
+                badge.className = `item-badge ${item.badge}`;
+                badge.textContent = item.badge;
+                content.appendChild(badge);
+            }
+
+            li.appendChild(content);
+
+            if (item.description) {
+                const desc = document.createElement('div');
+                desc.className = 'description';
+                desc.innerHTML = item.description;
+                li.appendChild(desc);
+            }
+
+            if (item.children && item.children.length > 0) {
+                const childrenUl = document.createElement('ul');
+                childrenUl.className = 'children';
+                
+                item.children.forEach(child => {
+                    childrenUl.appendChild(createTreeItem(child, level + 1));
+                });
+                
+                li.appendChild(childrenUl);
+
+                content.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const toggle = content.querySelector('.toggle-icon');
+                    const children = li.querySelector('.children');
+                    
+                    if (children.classList.contains('expanded')) {
+                        children.classList.remove('expanded');
+                        toggle.classList.remove('expanded');
+                    } else {
+                        children.classList.add('expanded');
+                        toggle.classList.add('expanded');
+                    }
+                });
+            }
+
+            return li;
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.children').forEach(children => {
+                children.classList.add('expanded');
+            });
+            document.querySelectorAll('.toggle-icon').forEach(toggle => {
+                toggle.classList.add('expanded');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.children').forEach(children => {
+                children.classList.remove('expanded');
+            });
+            document.querySelectorAll('.toggle-icon').forEach(toggle => {
+                toggle.classList.remove('expanded');
+            });
+        }
+
+        const treeRoot = document.getElementById('treeRoot');
+        treeRoot.appendChild(createTreeItem(projectStructure));
+    </script>
+</body>
+</html>

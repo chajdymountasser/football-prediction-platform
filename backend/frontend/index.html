@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premier League - Home</title>
+
+  <!-- Favicon / Tab Logo -->
+  <link rel="icon" type="image/png" href="/static/icons/common/pl-favicon.png" />
+  <link rel="apple-touch-icon" href="/static/icons/common/pl-favicon.png" />
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/static/css/root.css" />
+  <link rel="stylesheet" href="/static/css/index.css" />
+</head>
+
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="top-nav__left">
+      <button class="icon-btn" aria-label="Open menu">
+        <img src="/static/icons/common/hamburger-menu.svg" alt="">
+      </button>
+
+      <a class="nav-logo" href="/">
+        <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+      </a>
+    </div>
+
+    <nav class="top-nav__center">
+      <a href="/matches">Matches</a>
+      <a href="/table">Table</a>
+      <a href="/stats">Statistics</a>
+      <a href="/news">News</a>
+      <a href="/clubs">Clubs</a>
+      <a href="/watch">Watch Live</a>
+    </nav>
+
+    <div class="top-nav__right">
+      <button class="sign-in-btn">Sign in</button>
+    </div>
+
+    <!-- Backdrop -->
+    <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
+
+    <!-- Drawer -->
+    <aside id="navDrawer" class="nav-drawer" aria-hidden="true">
+      <div class="nav-drawer__header">
+        <a class="nav-drawer__logo" href="/">
+          <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+        </a>
+
+        <button class="icon-btn nav-drawer__close" type="button">✕</button>
+      </div>
+
+      <nav class="nav-drawer__links">
+        <a href="/matches">Matches</a>
+        <a href="/table">Table</a>
+        <a href="/stats">Statistics</a>
+        <a href="/news">News</a>
+        <a href="/clubs">Clubs</a>
+        <a href="/watch">Watch Live</a>
+      </nav>
+
+      <div class="nav-drawer__footer">
+        <button class="sign-in-btn nav-drawer__signin">Sign in</button>
+      </div>
+    </aside>
+  </header>
+
+  <main class="home-main container">
+
+    <!-- HERO -->
+    <section class="home-hero">
+
+      <!-- LEFT -->
+      <article class="hero-left">
+        <div class="hero-left__img">
+          <img id="heroImg" src="/static/image/hero5.jpg" alt="">
+        </div>
+
+        <div class="hero-left__body">
+          <h2 id="heroTitle">Choose your Team and predict full time result with randomF AI</h2>
+          <p id="heroDesc">
+            Can you predict the weekend's Premier League results?
+          </p>
+          <span id="heroTag" class="hero-tag">Awards</span>
+        </div>
+      </article>
+
+      <!-- MIDDLE -->
+      <aside class="hero-middle">
+        <h3 class="hero-middle__title">Latest</h3>
+        <div id="latestList" class="latest-list"></div>
+      </aside>
+
+      <!-- RIGHT -->
+      <aside class="hero-right">
+        <div class="scores-head">
+          <h3 id="scoresTitle">Premier League</h3>
+          <a class="scores-link" href="/matches">View all matches</a>
+        </div>
+        <div id="scoresList" class="scores-list"></div>
+      </aside>
+
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-panel">
+      <div class="features-head">
+        <h2 class="features-title">Features</h2>
+      </div>
+      <div id="featuresRow" class="features-row"></div>
+    </section>
+
+  </main>
+
+  <!-- JS -->
+  <script src="/static/js/root.js"></script>
+  <script src="/static/js/index.js"></script>
+</body>
+</html>

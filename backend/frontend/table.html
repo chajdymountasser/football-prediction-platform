@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premier League - Table</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/static/icons/common/pl-favicon.png" />
+  <link rel="apple-touch-icon" href="/static/icons/common/pl-favicon.png" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/css/root.css" />
+  <link rel="stylesheet" href="/static/css/table.css" />
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <div class="top-nav__left">
+      <button class="icon-btn" aria-label="Open menu">
+        <img src="/static/icons/common/hamburger-menu.svg" alt="">
+      </button>
+      <a class="nav-logo" href="/">
+        <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+      </a>
+    </div>
+
+    <nav class="top-nav__center">
+      <a href="/matches">Matches</a>
+      <a href="/table" class="active">Table</a>
+      <a href="/stats">Statistics</a>
+      <a href="/news">News</a>
+      <a href="/clubs">Clubs</a>
+      <a href="/watch">Watch Live</a>
+    </nav>
+
+    <div class="top-nav__right">
+      <button class="sign-in-btn">Sign in</button>
+    </div>
+
+    <!-- Drawer -->
+    <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
+
+    <aside id="navDrawer" class="nav-drawer" aria-hidden="true" role="dialog" aria-label="Main menu">
+      <div class="nav-drawer__header">
+        <a class="nav-drawer__logo" href="/">
+          <img src="/static/icons/common/pl-logo-light.svg" alt="Premier League Logo">
+        </a>
+
+        <button class="icon-btn nav-drawer__close" type="button" aria-label="Close menu">✕</button>
+      </div>
+
+      <nav class="nav-drawer__links">
+        <a href="/matches">Matches</a>
+        <a href="/table">Table</a>
+        <a href="/stats">Statistics</a>
+        <a href="/news">News</a>
+        <a href="/clubs">Clubs</a>
+        <a href="/watch">Watch Live</a>
+      </nav>
+
+      <div class="nav-drawer__footer">
+        <button class="sign-in-btn nav-drawer__signin">Sign in</button>
+      </div>
+    </aside>
+  </header>
+
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Table</h1>
+    </div>
+    <div class="page-header__pattern" aria-hidden="true"></div>
+  </section>
+
+  <!-- Main -->
+  <main class="page-main">
+    <div class="container">
+      <section class="panel">
+
+        <!-- Filters -->
+        <div class="filters-row">
+          <button class="filter" id="competitionFilter">
+            <span id="competitionLabel">Premier League</span> ▾
+          </button>
+
+          <button class="filter" id="seasonFilter">
+            <span id="seasonLabel">2025/26</span> ▾
+          </button>
+
+          <button class="reset-btn" id="resetFilters">
+            Reset <span class="reset-icon">↻</span>
+          </button>
+        </div>
+
+        <!-- Standings -->
+        <div class="standings">
+          <div class="standings-head">
+            <div class="standings-title" id="standingsTitle">Premier League</div>
+          </div>
+
+          <div class="standings-wrap">
+            <table class="standings-table">
+              <thead>
+                <tr>
+                  <th class="col-pos">Pos</th>
+                  <th class="col-team">Club</th>
+                  <th class="col-num">Pl</th>
+                  <th class="col-num">W</th>
+                  <th class="col-num">D</th>
+                  <th class="col-num">L</th>
+                  <th class="col-num col-g">G</th>
+                  <th class="col-num">GD</th>
+                  <th class="col-num col-pts">Pts</th>
+                  <th class="col-form">Form</th>
+                </tr>
+              </thead>
+
+              <tbody id="standingsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Filter Sheet -->
+  <div id="filterSheet" class="sheet-backdrop" hidden>
+    <aside class="sheet">
+      <div class="sheet-header">
+        <button id="sheetBackBtn" class="sheet-back">←</button>
+        <h3 id="sheetTitle">Sheet</h3>
+        <button id="sheetCloseBtn" class="sheet-close">✕</button>
+      </div>
+
+      <div id="sheetBody" class="sheet-body"></div>
+
+      <div class="sheet-footer">
+        <button id="sheetSaveBtn" class="sheet-save">Save</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- JS -->
+  <script src="/static/js/root.js"></script>
+  <script src="/static/js/table.js"></script>
+</body>
+</html>
